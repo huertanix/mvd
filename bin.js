@@ -6,6 +6,7 @@ var open = require('opn')
 var home = require('os-homedir')()
 var nonPrivate = require('non-private-ip')
 var muxrpcli = require('muxrpcli')
+const pull = require('pull-stream')
 
 var SEC = 1e3
 var MIN = 60*SEC
@@ -28,7 +29,7 @@ var conf = argv.slice(i+1)
 argv = ~i ? argv.slice(0, i) : argv
 
 if (argv[0] == 'server') {
-  
+
   var createSbot = require('scuttlebot')
     .use(require('scuttlebot/plugins/master'))
     .use(require('scuttlebot/plugins/gossip'))
@@ -47,6 +48,29 @@ if (argv[0] == 'server') {
       name: 'serve',
       version: '1.0.0',
       init: function (sbot) {
+        function getLocations(cb) {
+          return pull(
+            sbot.messagesByType({
+              type: 'location',
+              reverse: true,
+              limit: 50
+            }),
+            pull.filter(message => {
+              return message.value && message.value.content && message.value.content.latitude
+            }),
+            pull.map(message => {
+              let { latitude, longitude } = message.value.content
+              return {
+                name: message.key,
+                coordinates: [ longitude, latitude ],
+              }
+            }),
+            pull.collect((err, locations) => {
+              console.dir(locations)
+              cb(locations)
+            })
+          )
+        }
         sbot.ws.use(function (req, res, next) {
           var send = config
           delete send.keys // very important to keep this, as it removes the server keys from the config before broadcast
@@ -58,15 +82,25 @@ if (argv[0] == 'server') {
             res.end(mvdClient)
           if(req.url == '/get-config')
             res.end(JSON.stringify(send))
+          if(req.url == '/get-locations') {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('Content-Type', 'application/json')
+            getLocations(locations => {
+              res.write(JSON.stringify(locations))
+              res.end()
+            })
+          }
           else next()
         })
       }
     })
-  
+
+  console.log(config.host)
+
   open('http://localhost:' + config.ws.port, {wait: false})
-  
+
   var server = createSbot(config)
-  
+
   fs.writeFileSync(manifestFile, JSON.stringify(server.getManifest(), null, 2))
 } else {
 
