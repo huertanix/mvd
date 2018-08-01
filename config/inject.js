@@ -12,6 +12,19 @@ module.exports = function (name, override) {
 
   var network
 
+  if (name === 'bac') {
+    network = {
+      port: 8077,
+      ws: {
+        port: 8787
+      },
+      caps: {
+        shs: 'zfFzWzDFKAuCgfoOzvJJt4pS5BL/ifq/Vo7+9DfjKKs=',
+        sign: null
+      }
+    }
+  }
+
   if (name === 'ssb') {
     network = {
       port: 8008,

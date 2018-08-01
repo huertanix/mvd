@@ -11,9 +11,7 @@ const pull = require('pull-stream')
 var SEC = 1e3
 var MIN = 60*SEC
 
-var network = 'ssb'
-//var network = 'decent'
-//var network = 'testnet'
+var network = process.env.ssb_appname || 'bac'
 
 var config = require('./config/inject')(network)
 
