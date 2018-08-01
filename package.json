@@ -36,7 +36,6 @@
     "pull-stream": "^3.6.8",
     "pull-stringify": "^2.0.0",
     "rc": "^1.2.7",
-    "scuttlebot": "https://github.com/jedahan/scuttlebot.git#routerless",
     "simple-mime": "^0.1.0",
     "split-buffer": "^1.0.0",
     "ssb-avatar": "^0.2.0",
