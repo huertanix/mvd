@@ -14,6 +14,14 @@ function hash () {
   return window.location.hash.substring(1)
 }
 
+function getTileUrl(lat_deg, lon_deg, zoom) {
+  n = 2.0 ** zoom;
+  lat_rad = (lat_deg / 180.0) * Math.PI;
+  xtile = parseInt((lon_deg + 180.0) / 360.0 * n);
+  ytile = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * n);
+  return `https://tile.openstreetmap.org/${zoom}/${xtile}/${ytile}.png`
+}
+
 module.exports = function (msg) {
   var message = h('div.message#' + msg.key.substring(0, 44))
 
@@ -21,7 +29,7 @@ module.exports = function (msg) {
     var cache = {mute: false}
   else
     var cache = JSON.parse(localStorage[msg.value.author])
-
+  
   if (cache.mute == true) {
     var muted = h('span', ' muted')
     message.appendChild(tools.mini(msg, muted))
@@ -33,6 +41,17 @@ module.exports = function (msg) {
       message.appendChild(h('button.btn.right', h('a', {href: '#backchannel'}, 'Chat')))
     }
     message.appendChild(tools.mini(msg, ' ' + msg.value.content.text))
+    return message
+  }
+  else if (msg.value.content.type == 'location') {
+    message.appendChild(h('div.message__body', 'Location'))
+    var lat_deg = msg.value.content.latitude;
+    var lon_deg = msg.value.content.longitude;
+    var zoom = 7;
+    var tileUrl = getTileUrl(lat_deg, lon_deg, zoom);
+    console.log(`Tile URL ${tileUrl}`);
+    message.appendChild(h('img.message__body', {src: tileUrl}))
+    //'https://tile.openstreetmap.org/7/37/48.png'}))
     return message
   }
   else if (msg.value.content.type == 'contact') {
