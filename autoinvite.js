@@ -4,10 +4,8 @@ var sbot = require('./scuttlebot')
 var config = require('./config')()
 
 var keys = require('./keys')
-
 module.exports = function () {
-  sbot.friends.get({source: sbot.id, dest: keys.id}, (err, follows) => {
-    if (follows) return
+  sbot.friends.get({dest: keys.id}, (err, follows) => {
 
     var data = ref.parseInvite(config.invite)
 
@@ -16,22 +14,22 @@ module.exports = function () {
       caps: config.caps,
       manifest: {invite: {use: 'async'}, getAddress: 'async'}
     }, (err, remotebot) => {
-      if (err) throw err
+      if (follows[remotebot.id]) return
+
       remotebot.invite.use({feed: keys.id}, (_, msg) => {
         if (msg) {
           sbot.publish({
             type: 'contact',
             contact: data.key,
             following: true
+          }, (err, message) => {
+            setTimeout(() => {
+              location.hash = '#' + keys.id
+              location.hash = '#'
+            }, 100)
           })
         }
       })
     })
-
-    // I think this forces a refresh or helps with debugging or something
-    setTimeout(() => {
-      location.hash = '#' + keys.id
-      location.hash = '#'
-    }, 100)
   })
 }
