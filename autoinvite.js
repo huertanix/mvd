@@ -17,21 +17,21 @@ module.exports = function () {
       manifest: {invite: {use: 'async'}, getAddress: 'async'}
     }, (err, remotebot) => {
       if (err) throw err
-      remotebot.invite.use({feed: keys.id}, (_, msg) {
-      if (msg) {
-        sbot.publish({
-          type: 'contact',
-          contact: data.key,
-          following: true
-        })
-      }
+      remotebot.invite.use({feed: keys.id}, (_, msg) => {
+        if (msg) {
+          sbot.publish({
+            type: 'contact',
+            contact: data.key,
+            following: true
+          })
+        }
+      })
     })
 
     // I think this forces a refresh or helps with debugging or something
-    setTimeout(function () {
+    setTimeout(() => {
       location.hash = '#' + keys.id
       location.hash = '#'
     }, 100)
   })
-
 }
