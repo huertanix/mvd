@@ -23,6 +23,7 @@ var ssbKeys = require('ssb-keys')
 var keys = require('./keys')
 
 var checkInvite = require('./invite')
+var autoInvite = require('./autoinvite')
 
 var compose = require('./compose')
 
@@ -527,7 +528,8 @@ module.exports = function () {
       search(src.substr(1).split('%20').join(' '))
   } else {
     everythingStream()
-    checkInvite()
+    //checkInvite()
+    autoInvite()
   }
 
 }
