@@ -43,33 +43,33 @@ module.exports = function (name, override) {
       port: 3333,
       ws: {
         port: 3939
-      }, 
-      caps: { 
+      },
+      caps: {
         shs: 'EVRctE2Iv8GrO/BpQCF34e2FMPsDJot9x0j846LjVtc=',
-        sign: null 
+        sign: null
       }
     }
   }
 
   if (name === 'testnet') {
-    network = {   
+    network = {
       port: 9999,
       ws: {
         port: 9191
-      }, 
+      },
       caps: {
         shs: 'sR74I0+OW6LBYraQQ2YtFtqV5Ns77Tv5DyMfyWbrlpI=',
-        sign: null  
+        sign: null
       }
     }
   }
-  
+
   var HOME = home() || 'browser' //most probably browser
 
   return RC(name, merge(network, {
     name: name,
      //standard stuff that probably doesn't need to change below
-    host: nonPrivate.v4 || '',
+    host: process.env.ssb_host || '10.0.42.1',
     timeout: 0,
     allowPrivate: true,
     pub: true,

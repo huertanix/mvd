@@ -12,8 +12,9 @@ var SEC = 1e3
 var MIN = 60*SEC
 
 var network = process.env.ssb_appname || 'bac'
+var host = process.env.ssb_host || '10.0.42.1'
 
-var config = require('./config/inject')(network)
+var config = require('./config/inject')(network, { host })
 
 config.keys = ssbKeys.loadOrCreateSync(path.join(config.path, 'secret'))
 
@@ -116,7 +117,7 @@ if (argv[0] == 'server') {
   require('ssb-client')(config.keys, {
     manifest: manifest,
     port: config.port,
-    host: config.host||'localhost',
+    host: 'localhost',
     caps: config.caps,
     key: config.key || config.keys.id
   }, function (err, rpc) {
