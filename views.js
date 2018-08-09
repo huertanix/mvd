@@ -93,7 +93,7 @@ var mentionsStream = function () {
   pull(
     createStream({
       limit: 10,
-      reverse: true, 
+      reverse: true,
       index: 'DTA',
       live: false,
       query: [{$filter: {dest: id}}]
@@ -146,13 +146,13 @@ var userStream = function (src) {
 
     var name = avatar.name(src)
 
-    var editname = h('span', 
-      avatar.name(src), 
+    var editname = h('span',
+      avatar.name(src),
       h('button.btn', 'New name', {
         onclick: function () {
           var nameput = h('input', {placeholder: name.textContent})
-          var nameedit = 
-            h('span', nameput, 
+          var nameedit =
+            h('span', nameput,
               h('button.btn', 'Preview', {
                 onclick: function () {
                   if (nameput.value[0] != '@')
@@ -161,13 +161,13 @@ var userStream = function (src) {
                     tobename = nameput.value.substring(1, 100)
                   var newname = h('span', h('a', {href: '#' + src}, '@' + tobename), h('button.btn', 'Publish', {
                     onclick: function () {
-                      var donename = h('span', h('a', {href: '#' + src}, '@' + tobename)) 
+                      var donename = h('span', h('a', {href: '#' + src}, '@' + tobename))
                       sbot.publish({type: 'about', about: src, name: tobename})
                       localStorage[src + 'name'] = tobename
                       newname.parentNode.replaceChild(donename, newname)
                    }
                   }))
-                  nameedit.parentNode.replaceChild(newname, nameedit) 
+                  nameedit.parentNode.replaceChild(newname, nameedit)
                 }
               })
             )
@@ -179,7 +179,7 @@ var userStream = function (src) {
     var editimage = h('span',
       h('button.btn', 'New image', {
         onclick: function () {
-          var upload = 
+          var upload =
           h('span',
             hyperfile.asDataURL(function (data) {
               if(data) {
@@ -233,7 +233,7 @@ var userStream = function (src) {
       })
     )
 
-    var avatars = h('div.avatars', 
+    var avatars = h('div.avatars',
       h('a', {href: '#' + src},
         h('span.avatar--medium#profileImage', avatar.image(src)),
         editname,
@@ -241,10 +241,10 @@ var userStream = function (src) {
         editimage
       )
     )
-    
+
     pull(
       sbot.userStream({id: src, reverse: false, limit: 1}),
-      pull.drain(function (msg) { 
+      pull.drain(function (msg) {
         var howlong = h('span', h('br'), ' arrived ', human(new Date(msg.value.timestamp)))
         avatars.appendChild(howlong)
         console.log(msg)
@@ -253,7 +253,7 @@ var userStream = function (src) {
 
 
     var buttons = h('div.buttons')
-   
+
     profile.firstChild.appendChild(avatars)
     profile.firstChild.appendChild(buttons)
     buttons.appendChild(tools.mute(src))
@@ -278,7 +278,7 @@ var userStream = function (src) {
         profile.appendChild(composer)
       }
     })
- 
+
     buttons.appendChild(writeMessage)
     buttons.appendChild(writePrivate)
     buttons.appendChild(tools.follow(src))
@@ -288,7 +288,7 @@ var userStream = function (src) {
         profile.firstChild.appendChild(tools.getFollowing(src))
         profile.firstChild.appendChild(tools.getFollowers(src))
       }
-    }))    
+    }))
 }
 
 var msgThread = function (src) {
@@ -303,7 +303,7 @@ var msgThread = function (src) {
       if (msg.value) {
         content.appendChild(render(msg))
       }
-    }) 
+    })
   )
 
 
@@ -401,7 +401,7 @@ function everythingStream () {
       limit: 10,
       reverse: true,
       live: false,
-      query: [{$filter: { value: { timestamp: { $gt: 0 }}}}]    
+      query: [{$filter: { value: { timestamp: { $gt: 0 }}}}]
     }),
     stream.bottom(content)
   )
@@ -441,7 +441,7 @@ function backchannel () {
           console.log('Published!', msg)
         })
       }
-    } 
+    }
   })
 
   chat.appendChild(h('div.message', chatbox, publish))
@@ -486,11 +486,11 @@ function backchannel () {
 
 function search (src) {
   console.log('search' + src)
-  
+
   var content = h('div.content')
   var screen = document.getElementById('screen')
   screen.appendChild(hyperscroll(content))
-  
+
   pull(
     sbot.search.query({query: src, limit: 100}),
     pull.drain(function (search) {
