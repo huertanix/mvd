@@ -19,7 +19,7 @@ function getTileUrl(lat_deg, lon_deg, zoom) {
   lat_rad = (lat_deg / 180.0) * Math.PI;
   xtile = parseInt((lon_deg + 180.0) / 360.0 * n);
   ytile = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * n);
-  return `https://tile.openstreetmap.org/${zoom}/${xtile}/${ytile}.png`
+  return `https://baculus.map/data/mountainview/#${zoom}/${lat_deg}/${lon_deg}`
 }
 
 module.exports = function (msg) {
@@ -50,8 +50,7 @@ module.exports = function (msg) {
     var zoom = 7;
     var tileUrl = getTileUrl(lat_deg, lon_deg, zoom);
     console.log(`Tile URL ${tileUrl}`);
-    message.appendChild(h('img.message__body', {src: tileUrl}))
-    //'https://tile.openstreetmap.org/7/37/48.png'}))
+    message.appendChild(h('iframe.message__body', {width: 300, height: 200, src: tileUrl}))
     return message
   }
   /*
