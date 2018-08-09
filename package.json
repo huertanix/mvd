@@ -17,6 +17,7 @@
   "author": "Ev Bogue <ev@evbogue.com>",
   "license": "MIT",
   "dependencies": {
+    "@rafaelrinaldi/whereami": "^2.1.2",
     "dataurl-": "^0.1.0",
     "decent-ws": "1.0.4",
     "deep-extend": "^0.6.0",
