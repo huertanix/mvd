@@ -26,7 +26,7 @@ module.exports = function (msg) {
     var muted = h('span', ' muted')
     message.appendChild(tools.mini(msg, muted))
     return message
-  } 
+  }
   else if (msg.value.content.type == 'scat_message') {
     var src = hash()
     if (src != 'backchannel') {
@@ -35,12 +35,13 @@ module.exports = function (msg) {
     message.appendChild(tools.mini(msg, ' ' + msg.value.content.text))
     return message
   }
+  /*
   else if (msg.value.content.type == 'contact') {
     var contact = h('a', {href: '#' + msg.value.content.contact}, avatar.name(msg.value.content.contact))
     if (msg.value.content.following == true) {
       var following = h('span', ' follows ', contact)
       message.appendChild(tools.mini(msg, following))
-    } 
+    }
     if (msg.value.content.following == false) {
       var unfollowing = h('span', ' unfollows ', contact)
       message.appendChild(tools.mini(msg, unfollowing))
@@ -55,7 +56,7 @@ module.exports = function (msg) {
     }
     return message
   }
-  
+*/
   else if (msg.value.content.type == 'git-update') {
 
     message.appendChild(tools.header(msg))
@@ -85,8 +86,8 @@ module.exports = function (msg) {
 
     message.appendChild(commits)
 
-    return message 
- 
+    return message
+
   }
   else if (msg.value.content.type == 'git-repo') {
     message.appendChild(tools.header(msg))
@@ -98,7 +99,7 @@ module.exports = function (msg) {
     var cloneurl = h('pre', 'git clone ssb://' + msg.key)
     message.appendChild(cloneurl)
     //message.appendChild(h('pre', tools.rawJSON(msg.value.content)))
-    return message  
+    return message
   }
 
   else if (msg.value.content.type == 'wiki') {
@@ -168,14 +169,14 @@ module.exports = function (msg) {
     var fallback = {}
 
 
-    if (msg.value.content.root) 
+    if (msg.value.content.root)
       opts.root = msg.value.content.root
-    else  
-      opts.root = msg.key 
+    else
+      opts.root = msg.key
 
     message.appendChild(tools.header(msg))
 
-    if (msg.value.content.root) 
+    if (msg.value.content.root)
       message.appendChild(h('span', 're: ', tools.messageLink(msg.value.content.root)))
 
     message.appendChild(h('div.message__body', tools.markdown(msg.value.content.text)))
@@ -183,10 +184,10 @@ module.exports = function (msg) {
     pull(
       sbot.query({query: [{$filter: {value: {content: {type: 'edit', original: msg.key}}}}], limit: 100, live: true}),
       pull.drain(function (update) {
-        if (update.sync) { 
+        if (update.sync) {
         } else {
           var newMessage = h('div', tools.markdown(update.value.content.text))
-          var latest = h('div.message__body', 
+          var latest = h('div.message__body',
             tools.timestamp(update, {edited: true}),
             newMessage
           )
@@ -194,8 +195,8 @@ module.exports = function (msg) {
           fallback.messageText = update.value.content.text
           opts.updated = update.key
           opts.original = msg.key
-        } 
-      })    
+        }
+      })
     )
 
     var name = avatar.name(msg.value.author)
@@ -210,7 +211,7 @@ module.exports = function (msg) {
         }
         var r = message.childNodes.length - 1
         delete opts.updated
-        delete opts.original 
+        delete opts.original
         delete fallback.messageText
         fallback.buttons = message.childNodes[r]
         var compose = h('div.message#re:' + msg.key.substring(0, 44), composer(opts, fallback))
@@ -223,9 +224,9 @@ module.exports = function (msg) {
       buttons.appendChild(h('button.btn', 'Edit', {
         onclick: function () {
           opts.type = 'edit'
-          if (!fallback.messageText) 
+          if (!fallback.messageText)
             fallback.messageText = msg.value.content.text
- 
+
           if (!opts.updated)
             opts.updated = msg.key
             opts.original = msg.key
@@ -254,14 +255,14 @@ module.exports = function (msg) {
     message.appendChild(tools.mini(msg, privateMsg))
     return message
   } else {
-
+    console.dir(msg.value.content)
+    /*
     //FULL FALLBACK
     message.appendChild(tools.header(msg))
     message.appendChild(h('pre', tools.rawJSON(msg.value.content)))
-
+    */
     //MINI FALLBACK
     //var fallback = h('span', ' ' + msg.value.content.type)
     //message.appendChild(tools.mini(msg, fallback))
-    return message 
   }
 }
