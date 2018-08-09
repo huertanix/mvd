@@ -14,14 +14,6 @@ function hash () {
   return window.location.hash.substring(1)
 }
 
-function getTileUrl(lat_deg, lon_deg, zoom) {
-  n = 2.0 ** zoom;
-  lat_rad = (lat_deg / 180.0) * Math.PI;
-  xtile = parseInt((lon_deg + 180.0) / 360.0 * n);
-  ytile = parseInt((1.0 - Math.log(Math.tan(lat_rad) + (1 / Math.cos(lat_rad))) / Math.PI) / 2.0 * n);
-  return `https://baculus.map/data/mountainview/#${zoom}/${lat_deg}/${lon_deg}`
-}
-
 module.exports = function (msg) {
   var message = h('div.message#' + msg.key.substring(0, 44))
 
@@ -47,10 +39,10 @@ module.exports = function (msg) {
     message.appendChild(h('div.message__body', 'Location'))
     var lat_deg = msg.value.content.latitude;
     var lon_deg = msg.value.content.longitude;
-    var zoom = 7;
-    var tileUrl = getTileUrl(lat_deg, lon_deg, zoom);
-    console.log(`Tile URL ${tileUrl}`);
-    message.appendChild(h('iframe.message__body', {width: 300, height: 200, src: tileUrl}))
+    var zoom = 12;
+    var tileUrl = `http://baculus.map/data/world/#${zoom}/${lat_deg}/${lon_deg}`
+
+    message.appendChild(h('iframe.message__body', {width: 600, height: 200, src: tileUrl}))
     return message
   }
   /*
