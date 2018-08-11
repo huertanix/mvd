@@ -40,7 +40,7 @@ module.exports = function (msg) {
     var lat_deg = msg.value.content.latitude;
     var lon_deg = msg.value.content.longitude;
     var zoom = 12;
-    var tileUrl = `http://baculus.map/data/world/#${zoom}/${lat_deg}/${lon_deg}`
+    var tileUrl = `http://baculus.map/styles/baculus/?vector#${zoom}/${lat_deg}/${lon_deg}`
 
     message.appendChild(h('iframe.message__body', {width: 600, height: 200, src: tileUrl}))
     return message
