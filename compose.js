@@ -13,7 +13,8 @@ var split = require('split-buffer')
 var route = require('./views')
 
 function file_input (onAdded) {
-  return h('label.btn', 'Upload file',
+  //return h('label.btn', 'Upload file',
+  return h('button.btn', 'Upload file',
     h('input', { type: 'file', hidden: true,
     onchange: function (ev) {
       var file = ev.target.files[0]

@@ -146,7 +146,7 @@ var userStream = function (src) {
 
     var name = avatar.name(src)
 
-    var editname = h('span',
+    var editname = h('span.username',
       avatar.name(src),
       h('button.btn', 'New name', {
         onclick: function () {
@@ -159,9 +159,9 @@ var userStream = function (src) {
                     tobename = nameput.value
                   else
                     tobename = nameput.value.substring(1, 100)
-                  var newname = h('span', h('a', {href: '#' + src}, '@' + tobename), h('button.btn', 'Publish', {
+                  var newname = h('span.username', h('a', {href: '#' + src}, '@' + tobename), h('button.btn', 'Publish', {
                     onclick: function () {
-                      var donename = h('span', h('a', {href: '#' + src}, '@' + tobename))
+                      var donename = h('span.username', h('a', {href: '#' + src}, '@' + tobename))
                       sbot.publish({type: 'about', about: src, name: tobename})
                       localStorage[src + 'name'] = tobename
                       newname.parentNode.replaceChild(donename, newname)

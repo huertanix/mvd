@@ -91,6 +91,7 @@ a:visited {
 a:hover {
   color: #111;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .social-media-list a:hover {
@@ -196,7 +197,7 @@ a:hover {
 
 .message:hover, .embedded:hover {
   /*background: #141414;*/
-  background-color: #fdfdfd;
+  background-color: #f7f7f3;
 }
 
 .message img, .message video {
@@ -247,7 +248,7 @@ textarea {
 }
 
 .compose:hover {
-  background: #141414;
+  background: #fff;
 }
 
 .compose:focus {
@@ -303,7 +304,7 @@ pre {
   line-height: 20px;
 }
 
-button {margin: 0; margin-top: -.2em;}
+/*button {margin: 0; margin-top: -.2em;}*/
 
 input {width: 88%; }
 
@@ -313,7 +314,7 @@ input {width: 88%; }
   display: inline-block;
   display: inline;
   padding: .25em .75em;
-  margin-bottom: 0;
+  margin-bottom: .5em;
   margin-right: .5em;
   font-size: 14px;
   line-height: 20px;
@@ -351,6 +352,17 @@ input {width: 88%; }
 }
 
 .btn:first-child {
-  *margin-left: 0;
+  /*margin-left: 0.5em;*/
 }
 
+.username span, .username a {
+  margin-right: 0.5em;
+}
+
+.location {
+  max-width:100%;
+  width: 100%;
+  height: 200px;
+  border-width: 0;
+  border-radius: 2px;
+}
