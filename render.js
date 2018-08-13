@@ -36,6 +36,8 @@ module.exports = function (msg) {
     return message
   }
   else if (msg.value.content.type == 'location') {
+    message.appendChild(tools.header(msg))
+
     message.appendChild(h('div.message__body', 'Location'))
     var lat_deg = msg.value.content.latitude;
     var lon_deg = msg.value.content.longitude;
