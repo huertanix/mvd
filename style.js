@@ -6,3 +6,8 @@ fs.writeFileSync(
   JSON.stringify(fs.readFileSync(path.join(__dirname, 'style.css'), 'utf8'))
 )
 
+// YOLO
+fs.writeFileSync(
+  path.join(__dirname, 'bootstrap.min.css.json'),
+  JSON.stringify(fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'), 'utf8'))
+)
